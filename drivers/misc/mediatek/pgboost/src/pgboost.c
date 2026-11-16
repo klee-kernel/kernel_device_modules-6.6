@@ -1226,7 +1226,7 @@ static void __init pgboost_init(void)
 #endif
 
 	/* Initialize & start the delayed work with periodicity */
-	INIT_DELAYED_WORK(&pgboost_periodic_work, pgboost_periodic_work_handler);
+	INIT_DEFERRABLE_WORK(&pgboost_periodic_work, pgboost_periodic_work_handler);
 	queue_delayed_work(system_unbound_wq, &pgboost_periodic_work,
 			(unsigned long)period_intval * HZ);
 
