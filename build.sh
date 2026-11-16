@@ -6,6 +6,11 @@ set -e
 DEVICE_MODULES_DIR=$(basename $(dirname $0))
 source "${DEVICE_MODULES_DIR}/kernel/kleaf/_setup_env.sh"
 
+# Give Kbuild a real UTC timestamp for uname -v; allow a caller-provided fixed value.
+export KBUILD_BUILD_TIMESTAMP="${KBUILD_BUILD_TIMESTAMP:-$(LC_ALL=C date -u)}"
+export KBUILD_BUILD_USER=SoloSaravanan
+export KBUILD_BUILD_HOST=Destroyer
+
 # run kleaf commands or legacy build.sh
 build_scope=internal
 if [ ! -d "vendor/mediatek/tests/kernel" ]
@@ -27,6 +32,9 @@ KLEAF_ARGS=("${DEBUG_ARGS} ${SANDBOX_ARGS} \
 	--experimental_writable_outputs \
 	--noenable_bzlmod \
 	--experimental_sibling_repository_layout \
+	--action_env=KBUILD_BUILD_TIMESTAMP \
+	--action_env=KBUILD_BUILD_USER \
+	--action_env=KBUILD_BUILD_HOST \
 	--//build/bazel_mgk_rules:kernel_version=${KERNEL_VERSION_NUM}")
 
 set -x
