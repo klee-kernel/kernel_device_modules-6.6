@@ -4555,4 +4555,14 @@ def get_overlay_modules_list():
         mgk_64_kleaf_modules.remove("//vendor/mediatek/kernel_modules/connectivity/wlan/core/gen4m/build/connac3x/6991_6653_triband:wlan_drv_gen4m_6991_6653_triband")
         mgk_64_kleaf_modules.remove("//vendor/mediatek/kernel_modules/connectivity/wlan/core/gen4m/build/connac3x/eap_6653:wlan_drv_gen4m_eap_6653")
 
+    if "klee" in DEFCONFIG_OVERLAYS:
+        for test_module in [
+            "drivers/memory/mediatek/emi-mpu-test.ko",
+            "drivers/memory/mediatek/emi-mpu-test-v2.ko",
+            "drivers/misc/mediatek/iommu/iommu_engine.ko",
+            "drivers/misc/mediatek/iommu/iommu_test.ko",
+        ]:
+            if test_module in mgk_64_device_modules:
+                mgk_64_device_modules.remove(test_module)
+
 get_overlay_modules_list()

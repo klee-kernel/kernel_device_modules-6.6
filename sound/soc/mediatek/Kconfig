@@ -317,7 +317,7 @@ config DEVICE_MODULES_SND_SOC_MT6899
 config DEVICE_MODULES_SND_SOC_MT6899_MT6368
 	tristate "ASoc Audio driver for MT6899 with MT6368 codec"
 	depends on DEVICE_MODULES_SND_SOC_MT6899
-	select DEVICE_MODULES_SND_SOC_MT6368
+	select SND_SOC_MT6368
 	help
 	  This adds ASoC driver for Mediatek MT6899 boards
 	  with the MT6368 codecs.
