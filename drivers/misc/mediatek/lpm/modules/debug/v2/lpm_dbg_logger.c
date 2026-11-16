@@ -32,7 +32,7 @@
 
 #define plat_mmio_read(offset)	__raw_readl(lpm_spm_base + offset)
 
-#define LPM_LOG_DEFAULT_MS		5000
+#define LPM_LOG_DEFAULT_MS  60000
 
 #define PCM_32K_TICKS_PER_SEC		(32768)
 #define PCM_TICK_TO_SEC(TICK)	(TICK / PCM_32K_TICKS_PER_SEC)
