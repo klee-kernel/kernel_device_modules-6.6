@@ -2276,6 +2276,7 @@ out:
 static void nvt_fw_reload_recovery(void)
 {
 	int i = 0;
+	int ret;
 
 	NVT_LOG("++\n");
 
@@ -2323,8 +2324,18 @@ static void nvt_fw_reload_recovery(void)
 	/*P16 code for BUGP16-8567 by liuyupei at 2025/7/23 start*/
 	if (bTouchIsAwake) {
 		nvt_set_gesture_switch(0x00);
-		if (ts->report_rate > 0)
-			nvt_set_extend_custom_cmd(0x0a, ts->report_rate);
+		if (ts->report_rate > 0) {
+			ret = nvt_set_extend_custom_cmd(0x0a, ts->report_rate);
+			if (ret < 0) {
+				NVT_ERR("restore report rate %d failed: %d\n",
+					ts->report_rate, ret);
+			} else {
+#if IS_ENABLED(CONFIG_TOUCHSCREEN_XIAOMI_TOUCHFEATURE_COMMON)
+				driver_report_touch_rate_applied_common(
+					0, ts->report_rate);
+#endif
+			}
+		}
 	#if IS_ENABLED(CONFIG_TOUCHSCREEN_XIAOMI_TOUCHFEATURE_COMMON)
 		nvt_fod_attn_status_recovery();
 	#endif
@@ -3572,9 +3583,15 @@ static int nvt_set_thp_cur_value(int mode, int *values)
 	if (mode == Touch_Report_Rate || mode == THP_HAL_REPORT_RATE) {
 		if (values[0] < 0)
 			return 0;
-		ts->report_rate = (s16)values[0];
 		mutex_lock(&ts->lock);
+		ts->report_rate = (s16)values[0];
 		ret = nvt_set_extend_custom_cmd(0x0a, ts->report_rate);
+		if (!ret) {
+#if IS_ENABLED(CONFIG_TOUCHSCREEN_XIAOMI_TOUCHFEATURE_COMMON)
+			driver_report_touch_rate_applied_common(
+				0, ts->report_rate);
+#endif
+		}
 		mutex_unlock(&ts->lock);
 		return ret;
 	}

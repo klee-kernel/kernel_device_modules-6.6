@@ -332,6 +332,7 @@ extern int register_touch_panel_common(struct device *dev, int touch_id,
 extern void xiaomi_touch_stop_panel_common(int touch_id);
 extern void unregister_touch_panel_common(int touch_id);
 extern int driver_get_touch_mode_common(int touch_id, int mode);
+extern void driver_report_touch_rate_applied_common(int touch_id, int value);
 extern void xiaomi_touch_remove_info_proc_common(int touch_id);
 extern int get_bms_temp_common(void);
 extern void enable_temperature_detection_func(bool enable);
