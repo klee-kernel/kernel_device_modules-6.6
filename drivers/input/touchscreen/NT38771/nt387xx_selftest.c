@@ -3963,7 +3963,7 @@ void nvt_mp_proc_deinit(void)
 		NVT_LOG("Removed /proc/%s\n", "nvt_selftest");
 	}
 	if (hq_proc_selftest_entry != NULL) {
-		remove_proc_entry(NVT_SELFTEST, NULL);
+		remove_proc_entry(NVT_SELFTEST, NVT_proc_android_touch_entry);
 		hq_proc_selftest_entry = NULL;
 		NVT_LOG("Removed /proc/android_touch/%s\n", "selftest");
 	}
