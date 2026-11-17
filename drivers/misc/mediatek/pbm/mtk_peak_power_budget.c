@@ -278,6 +278,11 @@ static int __used get_xpu_debug_info(struct xpu_dbg_t *data)
 	if (!data)
 		return -EINVAL;
 
+	if (!cpu_dbg_base || !gpu_dbg_base) {
+		memset(data, 0, sizeof(*data));
+		return -ENODEV;
+	}
+
 	val = dbg_read(cpu_dbg_base, 1);
 	data->cpub_len = (val >> 16) & 0x3FF;
 	data->cpub_cnt = val & 0xFFFF;
@@ -316,7 +321,9 @@ static void __used ppb_print_dbg_log(struct timer_list *timer)
 	time = ktime_to_us(ktime);
 	l_ktime = ktime;
 
-	get_xpu_debug_info(&dbg_data);
+	if (get_xpu_debug_info(&dbg_data))
+		return;
+
 	cpub_cnt = dbg_data.cpub_cnt - last_klog_xpu_dbg.cpub_cnt;
 	cpub_th_t = dbg_data.cpub_th_t - last_klog_xpu_dbg.cpub_th_t;
 	cpum_cnt = dbg_data.cpum_cnt - last_klog_xpu_dbg.cpum_cnt;
@@ -1565,7 +1572,8 @@ int get_ppb_mbrain_data(struct ppb_mbrain_data *data)
 	if (!data)
 		return -EINVAL;
 
-	get_xpu_debug_info(&dbg_data);
+	if (get_xpu_debug_info(&dbg_data))
+		memset(&last_mbrain_xpu_dbg, 0, sizeof(last_mbrain_xpu_dbg));
 
 	ktime = ktime_get();
 	data->duration = ktime_us_delta(ktime, last_ktime);
@@ -2327,7 +2335,9 @@ static int peak_power_budget_probe(struct platform_device *pdev)
 	}
 
 	timer_setup(&ppb_dbg_timer, ppb_print_dbg_log, TIMER_DEFERRABLE);
-	mod_timer(&ppb_dbg_timer, jiffies + PPB_LOG_DURATION);
+	/* XPU debug windows are optional on some SoCs. */
+	if (cpu_dbg_base && gpu_dbg_base)
+		mod_timer(&ppb_dbg_timer, jiffies + PPB_LOG_DURATION);
 
 	ppb_ctrl.ppb_drv_done = 1;
 	return 0;
