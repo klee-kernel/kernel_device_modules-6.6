@@ -380,7 +380,6 @@ mgk_64_device_modules = [
     "drivers/misc/mediatek/ccu/src/isp6s/ccu_isp6s.ko",
     "drivers/misc/mediatek/clkbuf/clkbuf.ko",
     "drivers/misc/mediatek/cmdq/mailbox/cmdq-sec-drv.ko",
-    "drivers/misc/mediatek/cmdq/mailbox/cmdq-test.ko",
     "drivers/misc/mediatek/cmdq/mailbox/mtk-cmdq-drv-ext.ko",
     "drivers/misc/mediatek/cm_mgr/mtk_cm_ipi.ko",
     "drivers/misc/mediatek/cm_mgr/mtk_cm_mgr.ko",

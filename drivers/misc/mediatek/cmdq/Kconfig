@@ -7,6 +7,14 @@ config MTK_CMDQ_MBOX_EXT
 	  inside packet and profiling. Also enable secure path with
 	  new sec controller which decuple with v3 driver.
 
+config MTK_CMDQ_MBOX_EXT_TEST
+	tristate "enable CMDQ mailbox test driver"
+	depends on MTK_CMDQ_MBOX_EXT
+	default MTK_CMDQ_MBOX_EXT
+	help
+	  Build the CMDQ mailbox test driver separately from the
+	  CMDQ extension so production builds can omit test support.
+
 config MTK_CMDQ_MBOX_EXT_MT6768
 	tristate "enable CMDQ mailbox driver extension on mt6768"
 	help
