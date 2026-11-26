@@ -48,7 +48,7 @@
 #define PPB_IPI_TIMEOUT_MS    3000U
 #define PPB_IPI_DATA_LEN (sizeof(struct ppb_ipi_data) / sizeof(int))
 #define MBRAIN_NOTIFY_BUDGET_THD    50000
-#define PPB_LOG_DURATION msecs_to_jiffies(20000)
+#define PPB_LOG_DURATION msecs_to_jiffies(60000)
 #define HPT_INIT_SETTING    7
 #define HPT_PREUV_VOLT_DEFAULT   2 //0(2.4V), 1(2.6V) 2(2.8V) 3(3.0V) 4(3.2V)
 #define PPB_MODE_DEFAULT         12
