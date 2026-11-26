@@ -12,6 +12,7 @@
 #include <linux/power_supply.h>
 #include <linux/slab.h>
 #include <linux/reboot.h>
+#include <linux/kthread.h>
 #include "mtk_low_battery_throttling.h"
 #include "pmic_lbat_service.h"
 #include "pmic_lvsys_notify.h"
